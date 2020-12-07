@@ -1,0 +1,19 @@
+.equation-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.equation {
+    display: flex;
+    flex-direction: column;
+}
+
+.equation div {
+    margin-bottom: 10px;
+}
+
+.equation-field {
+    width: 332px;
+}
+

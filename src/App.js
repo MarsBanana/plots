@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import Canvas from "./components/Canvas"
+import EquationForm from "./components/EquationForm"
+import useReducers from "./store/useReducers"
+import findPoints from "./parser"
+import {useSelector, shallowEqual} from "react-redux"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+    const {pushPoint, resetState} = useReducers()
+
+    const points = useSelector((state) => state.reducers.points, shallowEqual)
+
+    const handleSubmit = (values) => {
+        if (values.expression && values.from && values.to) {
+            resetState()
+            findPoints({
+                expression: values.expression,
+                range: {from: +values.from, to: +values.to},
+                pushPoint,
+            })
+        }
+    }
+    return (
+        <>
+            <Canvas points={points} />
+            <EquationForm onSubmit={handleSubmit} />
+        </>
+    )
 }
 
-export default App;
+export default App
